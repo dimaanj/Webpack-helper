@@ -1,0 +1,20 @@
+.todo-item-container {
+    display: flex;
+    justify-content: space-between;
+    width: 400px;
+    border: 1px solid #767676;
+    border-radius: 10px;
+    padding: 4px;
+}
+.todo-item-container + .todo-item-container {
+    margin-top: 8px;
+} 
+
+.buttons-container {
+    display: flex;
+    align-items: flex-end;
+}
+
+.complete-btn, .remove-btn {
+    outline: none;
+}
