@@ -1,17 +1,27 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 import './TodoListItem.css';
 
-const TodoListItem = ({ todo, onRemovePressed, onTodoCompleted }) => {
-  return (
-    <div className="todo-item-container">
-      <h3>{todo.text}</h3>  
-      <div className="buttons-container">
-        {!todo.isCompleted && <button className="complete-btn" onClick={e => onTodoCompleted(todo.text)}>Mark as Completed</button>}
-        <button className="remove-btn" onClick={(e) => onRemovePressed(todo.text)}>Remove</button>
-      </div>
+const TodoListItem = ({ todo, onRemovePressed, onTodoCompleted }) => (
+  <div className="todo-item-container">
+    <h3>{todo.text}</h3>
+    <div className="buttons-container">
+      {!todo.isCompleted && (
+      <button type="button" className="complete-btn" onClick={() => onTodoCompleted(todo.id)}>
+        Mark as Completedddd
+      </button>
+      )}
+      <button type="button" className="remove-btn" onClick={() => onRemovePressed(todo.id)}>
+        Removeeeexs
+      </button>
     </div>
-  );
-};
+  </div>
+);
 
+TodoListItem.propTypes = {
+  todo: PropTypes.object.isRequired,
+  onRemovePressed: PropTypes.func.isRequired,
+  onTodoCompleted: PropTypes.func.isRequired,
+};
 
 export default TodoListItem;

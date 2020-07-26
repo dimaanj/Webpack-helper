@@ -1,11 +1,12 @@
-import React from "react";
-import "./App.css";
-import TodoList from "./todos/TodoList";
+import React from 'react';
+import './reset.css';
+import './App.css';
+import SignIn from './auth/AuthForm';
 
 const App = () => (
   <div className="App">
-    <TodoList/>
+    <SignIn />
   </div>
 );
 
-export {App};
+export default App;

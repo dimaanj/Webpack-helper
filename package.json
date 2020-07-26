@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "build": "./node_modules/.bin/webpack -w -d",
-    "start:dev": "./node_modules/.bin/webpack-dev-server"
+    "start:dev": "./node_modules/.bin/webpack-dev-server",
+    "eslint-init": "./node_modules/.bin/eslint --init"
   },
   "dependencies": {
     "@babel/core": "^7.10.5",
@@ -15,7 +16,11 @@
     "@babel/runtime": "^7.10.5",
     "babel-loader": "^8.1.0",
     "css-loader": "^3.6.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "html-webpack-plugin": "^4.3.0",
+    "prettier": "^2.0.5",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-loadable": "^5.5.0",
@@ -24,7 +29,9 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
+    "reselect": "^4.0.0",
     "style-loader": "^1.2.1",
+    "styled-components": "^5.1.1",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^4.1.0",
     "webpack": "^4.43.0",
@@ -33,6 +40,11 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.10.5",
-    "babel-plugin-syntax-dynamic-import": "^6.18.0"
+    "eslint": "^7.5.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-hooks": "^4.0.8"
   }
 }

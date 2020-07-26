@@ -1,36 +1,36 @@
 .new-todo-form {
-    display: flex;
-    align-items: stretch;
-    height: 38px;
-    margin-bottom: 8px;
+  display: flex;
+  align-items: stretch;
+  height: 38px;
+  margin-bottom: 8px;
 }
 
 .new-todo-input {
-    outline: none;
-    font-size: 15px;
-    border: 1px solid #767676;
-    border-right: 0;
-    border-radius: 10px 0 0 10px;
-    background-color: white;
-    transition: background-color 0.3s ease;
+  outline: none;
+  font-size: 15px;
+  border: 1px solid #767676;
+  border-right: 0;
+  border-radius: 10px 0 0 10px;
+  background-color: white;
+  transition: background-color 0.3s ease;
 }
 .new-todo-input:focus {
-    outline: none;
+  outline: none;
 }
 .new-todo-input:hover {
-    background-color: #efeff1;
+  background-color: #efeff1;
 }
 
 .new-todo-button {
-    outline: none;
-    background-color: white;
-    font-size: 15px;
-    border: 1px solid #767676;
-    border-radius: 0 10px 10px 0;
+  outline: none;
+  background-color: white;
+  font-size: 15px;
+  border: 1px solid #767676;
+  border-radius: 0 10px 10px 0;
 }
 .new-todo-button:focus {
-    outline: none;
-} 
+  outline: none;
+}
 .new-todo-button:hover {
-    background-color: #efeff1;
+  background-color: #efeff1;
 }
