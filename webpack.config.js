@@ -7,7 +7,7 @@ module.exports = {
   mode: 'development',
   devtool: 'inline-source-map',
   entry: {
-    bundle: './src/index.js', // Bundle with our code
+    bundle: './src/index.jsx', // Bundle with our code
     vendor: ['react', 'react-dom'], // Vendor libraries we want make in separate bundles
   },
   output: {
