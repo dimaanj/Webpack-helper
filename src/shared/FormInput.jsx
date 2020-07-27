@@ -1,12 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import FormLabel from './FormLabel';
 
 const StyledInput = styled.input`
   width: 100%;
   padding: 12px;
-  margin: 8px 0;
+  margin-top: 8px;
   display: inline-block;
   border: 2px solid #ccc;
   border-radius: 6px;
@@ -21,18 +20,14 @@ const StyledInput = styled.input`
   }
 `;
 
-const FormInput = ({
-  value,
-  fieldFor,
-  type,
-  title,
-  onChange,
-  autoComplete,
-  autofocus,
-  option,
-}) => (
+const Label = styled.section`
+  font-size: 22px;
+  font-weight: 400;
+`;
+
+const FormInput = ({ value, fieldFor, type, title, onChange, autoComplete, autofocus }) => (
   <section>
-    <FormLabel fieldFor={fieldFor} title={title} option={option} />
+    <Label fieldFor={fieldFor}>{title}</Label>
     <StyledInput
       value={value}
       id={fieldFor}
@@ -52,14 +47,12 @@ FormInput.propTypes = {
   onChange: PropTypes.func.isRequired,
   autoComplete: PropTypes.string,
   autofocus: PropTypes.bool,
-  option: PropTypes.string,
 };
 FormInput.defaultProps = {
   type: 'text',
   value: '',
   autofocus: false,
   autoComplete: undefined,
-  option: undefined,
 };
 
-export default FormInput;
+export { FormInput };

@@ -1,10 +1,8 @@
 import React from 'react';
 import './reset.css';
 import './App.css';
-import SignIn from './auth/SignIn';
+import { AuthForm } from './auth/AuthForm';
 
-const App = () => (
-  <SignIn />
-);
+const App = () => <AuthForm />;
 
-export default App;
+export { App };

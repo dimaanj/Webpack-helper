@@ -1,107 +1,61 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import FormInput from '../shared/FormInput';
+import { EmailForm } from './EmailForm';
+import { PasswordForm } from './PasswordForm';
+import { withAnimation } from '../shared/withAnimation';
 
-const SubmitButton = styled.button`
-  width: 100%;
-  padding: 8px;
-  margin-top: 18px;
-  font-size: 22px;
-  font-weight: 400;
-  border-radius: 6px;
-  background-color: #4285f4;
-  border: 2px solid #4285f4;
-  color: white;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  :focus {
-    outline: none;
-    background-color: #0f9d58;
-    border: 2px solid #0f9d58;
-  }
+const Layout = styled.div`
+  padding: 15px;
 `;
 
-const Toggler = styled.div`
-  width: 100%;
-  margin-top: 8px;
-  border-radius: 6px;
-  border: solid 2px #4285f4;
-  display: flex;
+const Header = styled.h2`
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 28px;
+  padding-bottom: 12px;
+  border-bottom: solid 2px #ccc;
 `;
 
-const ToggledOption = styled.button`
-  display: flex;
-  justify-content: center;
-  width: 50%;
-  font-size: 22px;
-  padding: 4px;
-  background: none;
-  background-color: ${(props) => (props.selected ? '#4285f4' : 'none')};
-  color: ${(props) => (props.selected ? 'white' : '')};
-  cursor: pointer;
-  border: none;
+const AnimatedEmailForm = withAnimation(EmailForm);
+const AnimatedPasswordForm = withAnimation(PasswordForm);
 
-  :focus {
-    outline: none;
-  }
-`;
-
-const AuthForm = ({ title, onSubmit }) => {
+const AuthForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isEmailForm, setIsEmailForm] = useState(true);
 
-  const onButtnonClick = (event) => {
-    event.preventDefault();
-    // disable button
-    // validation
-    onSubmit({ email, password });
-  };
-
-  const onEmailChange = (email) => {
+  const onCompleteEmail = ({ email }) => {
+    // change component
     setEmail(email);
   };
 
-  // const onPasswordChange = (passowrd) => {
-  //   setPassword(passowrd);
-  // };
+  const onCompletePassword = ({ password }) => {
+    setPassword(password);
+  };
+
+  const changeForm = () => {
+    setIsEmailForm(false);
+  };
 
   return (
-    <form>
-      <FormInput
-        value={email}
-        title="Email"
-        fieldFor="form-email"
-        type="email"
-        onChange={onEmailChange}
-        autofocus
-        name="email"
-        autoComplete="email"
-      />
-      <Toggler>
-        <ToggledOption selected type="button">Sign in</ToggledOption>
-        <ToggledOption type="button">Sign up</ToggledOption>
-      </Toggler>
-      {/* <FormInput
-        value={password}
-        title="Password"
-        fieldFor="form-password"
-        type="password"
-        onChange={onPasswordChange}
-        name="current-password"
-      /> */}
-      {/* <button type="button">Create an account</button> */}
-      <SubmitButton type="submit" onClick={(e) => onButtnonClick(e)}>
-        {title}
-      </SubmitButton>
-    </form>
+    <Layout>
+      <Header>Welcome</Header>
+      {isEmailForm ? (
+        <AnimatedEmailForm
+          isMounted={email === ''}
+          title="Continue"
+          onComplete={onCompleteEmail}
+          onUnmount={changeForm}
+        />
+      ) : (
+        <AnimatedPasswordForm
+          isMounted={password === ''}
+          onComplete={onCompletePassword}
+          onUnmount={changeForm}
+        />
+      )}
+    </Layout>
   );
 };
 
-AuthForm.propTypes = {
-  title: PropTypes.string.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-};
-
-export default AuthForm;
+export { AuthForm };
