@@ -29,7 +29,7 @@ const ToggledOption = styled.button`
   }
 `;
 
-const EmailForm = ({ title, onComplete }) => {
+const EmailForm = ({ onComplete }) => {
   const [email, setEmail] = useState('');
   const [authAction, setAuthAction] = useState('signin');
 
@@ -69,14 +69,13 @@ const EmailForm = ({ title, onComplete }) => {
         </ToggledOption>
       </Toggler>
       <SubmitButton type="submit" onClick={(e) => onButtnonClick(e)}>
-        {title}
+        Continue
       </SubmitButton>
     </form>
   );
 };
 
 EmailForm.propTypes = {
-  title: PropTypes.string.isRequired,
   onComplete: PropTypes.func.isRequired,
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -30,8 +30,9 @@ const RelativeContainer = styled.div`
 `;
 
 const withAnimation = (Component) => {
-  const enhance = ({ isMounted, onUnmount, ...props }) => {
+  const enhance = ({ isMounted, ...props }) => {
     const animatedElement = useRef(null);
+    const [shouldRender, setShouldRender] = useState(isMounted);
 
     useEffect(() => {
       animatedElement.current.style.left = '50%';
@@ -45,7 +46,7 @@ const withAnimation = (Component) => {
         animatedElement.current.style.opacity = '0';
 
         setTimeout(() => {
-          onUnmount();
+          setShouldRender(false);
         }, AMINATION_DURATION_IN_MILISECONDS);
         console.log(2);
       }
@@ -54,14 +55,13 @@ const withAnimation = (Component) => {
     return (
       <RelativeContainer>
         <AnimatedContent ref={animatedElement}>
-          <Component {...props} />
+          {shouldRender && <Component {...props} />}
         </AnimatedContent>
       </RelativeContainer>
     );
   };
   enhance.propTypes = {
     isMounted: PropTypes.bool,
-    onUnmount: PropTypes.func.isRequired,
   };
   enhance.defaultProps = {
     isMounted: true,

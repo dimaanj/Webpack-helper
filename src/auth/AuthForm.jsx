@@ -1,11 +1,21 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { EmailForm } from './EmailForm';
 import { PasswordForm } from './PasswordForm';
-import { withAnimation } from '../shared/withAnimation';
 
-const Layout = styled.div`
-  padding: 15px;
+const SnapContainer = styled.div`
+  scroll-snap-type: x mandatory;
+  display: flex;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: scroll;
+  // overflow: hidden;
+`;
+
+const SnapPage = styled.section`
+  height: 100vh;
+  min-width: 100vw;
+  scroll-snap-align: center;
+  padding: 2rem 1rem 1rem 1rem;
 `;
 
 const Header = styled.h2`
@@ -16,45 +26,25 @@ const Header = styled.h2`
   border-bottom: solid 2px #ccc;
 `;
 
-const AnimatedEmailForm = withAnimation(EmailForm);
-const AnimatedPasswordForm = withAnimation(PasswordForm);
-
 const AuthForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isEmailForm, setIsEmailForm] = useState(true);
+  const element = useRef(null);
 
-  const onCompleteEmail = ({ email }) => {
-    // change component
-    setEmail(email);
+  const onCompleteEmail = () => {
+    element.current.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const onCompletePassword = ({ password }) => {
-    setPassword(password);
-  };
-
-  const changeForm = () => {
-    setIsEmailForm(false);
-  };
+  const onCompletePassword = () => {};
 
   return (
-    <Layout>
-      <Header>Welcome</Header>
-      {isEmailForm ? (
-        <AnimatedEmailForm
-          isMounted={email === ''}
-          title="Continue"
-          onComplete={onCompleteEmail}
-          onUnmount={changeForm}
-        />
-      ) : (
-        <AnimatedPasswordForm
-          isMounted={password === ''}
-          onComplete={onCompletePassword}
-          onUnmount={changeForm}
-        />
-      )}
-    </Layout>
+    <SnapContainer>
+      <SnapPage>
+        <Header>Welcome</Header>
+        <EmailForm onComplete={onCompleteEmail} />
+      </SnapPage>
+      <SnapPage ref={element}>
+        <PasswordForm onComplete={onCompletePassword} />
+      </SnapPage>
+    </SnapContainer>
   );
 };
 
