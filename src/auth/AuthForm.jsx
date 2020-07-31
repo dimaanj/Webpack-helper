@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { EmailForm } from './EmailForm';
 import { PasswordForm } from './PasswordForm';
@@ -8,7 +8,7 @@ const SnapContainer = styled.div`
   display: flex;
   -webkit-overflow-scrolling: touch;
   overflow-x: scroll;
-  // overflow: hidden;
+  overflow: hidden;
 `;
 
 const SnapPage = styled.section`
@@ -21,16 +21,18 @@ const SnapPage = styled.section`
 const Header = styled.h2`
   font-size: 32px;
   font-weight: 600;
-  margin-bottom: 28px;
-  padding-bottom: 12px;
+  margin-bottom: 24px;
+  padding-bottom: 10px;
   border-bottom: solid 2px #ccc;
 `;
 
 const AuthForm = () => {
-  const element = useRef(null);
+  const passwordStep = useRef(null);
+  const [email, setEmail] = useState('');
 
-  const onCompleteEmail = () => {
-    element.current.scrollIntoView({ behavior: 'smooth' });
+  const onCompleteEmail = (email) => {
+    setEmail(email);
+    passwordStep.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   const onCompletePassword = () => {};
@@ -41,9 +43,14 @@ const AuthForm = () => {
         <Header>Welcome</Header>
         <EmailForm onComplete={onCompleteEmail} />
       </SnapPage>
-      <SnapPage ref={element}>
+      <SnapPage ref={passwordStep}>
+        <Header>Fill your credentials</Header>
         <PasswordForm onComplete={onCompletePassword} />
       </SnapPage>
+      {/* <SnapPage ref={element}>
+        <Header>Fill your credentials</Header>
+        <PasswordForm onComplete={onCompletePassword} />
+      </SnapPage> */}
     </SnapContainer>
   );
 };

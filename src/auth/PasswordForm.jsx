@@ -1,28 +1,31 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { FormInput } from '../shared/FormInput';
-import { SubmitButton } from '../shared/SubmitButton';
+import { CompleteButton } from '../shared/CompleteButton';
+import { useValidation } from '../shared/useValidation';
 
 const PasswordForm = ({ onComplete }) => {
-  const [password, setPassword] = useState('');
+  // const passwordRef = useRef(null);
+  // const { isValid: isValidEmail, message: errorMessage } = useValidation({
+  //   ref: passwordRef,
+  //   validate: passwordRef,
+  // });
 
-  const onButtnonClick = () => {
-    onComplete({ password });
+  const onCompletePswd = (event) => {
+    event.preventDefault();
+
+    // onComplete({ password });
   };
 
   return (
     <form action="">
-      <FormInput
-        value={password}
+      {/* <FormInput
         title="Password"
         fieldFor="form-password"
         type="password"
-        onChange={setPassword}
         name="current-password"
-      />
-      <SubmitButton type="submit" onClick={(e) => onButtnonClick(e)}>
-        Sign in
-      </SubmitButton>
+      /> */}
+      <CompleteButton title="Sign in" isDisabled={false} />
     </form>
   );
 };

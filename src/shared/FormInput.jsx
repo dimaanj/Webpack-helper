@@ -7,7 +7,7 @@ const StyledInput = styled.input`
   padding: 12px;
   margin-top: 8px;
   display: inline-block;
-  border: 2px solid #ccc;
+  border: ${({ isValid }) => (isValid ? '2px solid #ccc' : 'solid 2px #db4437')};
   border-radius: 6px;
   box-sizing: border-box;
   transition: all 0.3s ease;
@@ -25,34 +25,51 @@ const Label = styled.section`
   font-weight: 400;
 `;
 
-const FormInput = ({ value, fieldFor, type, title, onChange, autoComplete, autofocus }) => (
-  <section>
-    <Label fieldFor={fieldFor}>{title}</Label>
-    <StyledInput
-      value={value}
-      id={fieldFor}
-      type={type}
-      autoFocus={autofocus}
-      autoComplete={autoComplete}
-      onChange={(e) => onChange(e.target.value)}
-    />
-  </section>
+const ErrorMessage = styled.div`
+  height: 24px;
+  padding: 0 0 8px 0;
+  color: #db4437;
+`;
+
+const FormInput = React.forwardRef(
+  ({ onChange, isValid, errorMessage, fieldFor, type, title, autoComplete, autofocus }, ref) => (
+    <>
+      <section>
+        <Label fieldFor={fieldFor}>{title}</Label>
+        <StyledInput
+          onChange={onChange}
+          ref={ref}
+          id={fieldFor}
+          type={type}
+          autoFocus={autofocus}
+          autoComplete={autoComplete}
+          isValid={isValid}
+        />
+      </section>
+      <section>
+        <ErrorMessage>
+          <span>{errorMessage}</span>
+        </ErrorMessage>
+      </section>
+    </>
+  )
 );
 
 FormInput.propTypes = {
-  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
   fieldFor: PropTypes.string.isRequired,
   type: PropTypes.string,
   title: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  isValid: PropTypes.bool.isRequired,
   autoComplete: PropTypes.string,
   autofocus: PropTypes.bool,
+  errorMessage: PropTypes.string,
 };
 FormInput.defaultProps = {
   type: 'text',
-  value: '',
   autofocus: false,
   autoComplete: undefined,
+  errorMessage: undefined,
 };
 
 export { FormInput };

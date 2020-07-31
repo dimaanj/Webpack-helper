@@ -2,13 +2,19 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { FormInput } from '../shared/FormInput';
-import { SubmitButton } from '../shared/SubmitButton';
+import { CompleteButton } from '../shared/CompleteButton';
+import { validateEmail } from '../validation/validation';
+
+const AUTH_ACTIONS = {
+  SIGNIN: 'signin',
+  SIGNUP: 'signup',
+};
 
 const Toggler = styled.div`
   padding: 0;
   display: flex;
   width: 100%;
-  margin-top: 12px;
+  margin-bottom: 24px;
 `;
 
 const ToggledOption = styled.button`
@@ -30,47 +36,66 @@ const ToggledOption = styled.button`
 `;
 
 const EmailForm = ({ onComplete }) => {
+  const [authAction, setAuthAction] = useState(AUTH_ACTIONS.SIGNIN);
   const [email, setEmail] = useState('');
-  const [authAction, setAuthAction] = useState('signin');
+  const [isValidEmail, setIsValidEmail] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
+  const isSignInAction = authAction === AUTH_ACTIONS.SIGNIN;
 
-  const onButtnonClick = (event) => {
+  const onChangeEmail = (event) => {
+    setErrorMessage(undefined);
+
+    const { value } = event.target;
+    setEmail(value);
+
+    const { isValid } = validateEmail(value);
+    setIsValidEmail(isValid);
+  };
+
+  const onCompleteEmail = (event) => {
     event.preventDefault();
-    // disable button
-    // validation
-    onComplete({ email });
+
+    const { isValid, message } = validateEmail(email);
+    setIsValidEmail(isValid);
+    if (isValid) {
+      onComplete(email);
+    } else {
+      setErrorMessage(message);
+    }
   };
 
   const toggleSignInSignUp = () => {
-    if (authAction === 'signin') {
-      setAuthAction('signup');
+    if (authAction === AUTH_ACTIONS.SIGNIN) {
+      setAuthAction(AUTH_ACTIONS.SIGNUP);
     } else {
-      setAuthAction('signin');
+      setAuthAction(AUTH_ACTIONS.SIGNIN);
     }
   };
 
   return (
-    <form>
+    <form onSubmit={(e) => onCompleteEmail(e)}>
       <FormInput
-        value={email}
+        onChange={onChangeEmail}
         title="Email"
         fieldFor="form-email"
         type="email"
-        onChange={setEmail}
         autofocus
         name="email"
         autoComplete="email"
+        isValid={isValidEmail}
+        errorMessage={errorMessage}
       />
+
+      {/* {errorMessage && <span>{errorMessage}</span>} */}
       <Toggler onClick={toggleSignInSignUp}>
-        <ToggledOption selected={authAction === 'signin'} authAction="signin" type="button">
+        <ToggledOption selected={isSignInAction} authAction={AUTH_ACTIONS.SIGNIN} type="button">
           <span>Sign in</span>
         </ToggledOption>
-        <ToggledOption selected={authAction === 'signup'} authAction="signup" type="button">
+        <ToggledOption selected={!isSignInAction} authAction={AUTH_ACTIONS.SIGNUP} type="button">
           <span>Sign up</span>
         </ToggledOption>
       </Toggler>
-      <SubmitButton type="submit" onClick={(e) => onButtnonClick(e)}>
-        Continue
-      </SubmitButton>
+      <CompleteButton title="Continue" isDisabled={!isValidEmail} />
     </form>
   );
 };
