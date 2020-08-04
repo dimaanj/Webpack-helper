@@ -6,17 +6,22 @@ const StyledInput = styled.input`
   width: 100%;
   padding: 12px;
   margin-top: 8px;
+  margin-bottom: 24px;
   display: inline-block;
-  border: ${({ isValid }) => (isValid ? '2px solid #ccc' : 'solid 2px #db4437')};
+  border: 2px solid #ccc;
   border-radius: 6px;
   box-sizing: border-box;
-  transition: all 0.3s ease;
   font-size: 18px;
   font-weight: 400;
+  transition: all 0.3s ease;
 
   :focus {
     outline: none;
     border: solid 2px #4285f4;
+  }
+
+  :invalid {
+    color: #db4437;
   }
 `;
 
@@ -25,51 +30,24 @@ const Label = styled.section`
   font-weight: 400;
 `;
 
-const ErrorMessage = styled.div`
-  height: 24px;
-  padding: 0 0 8px 0;
-  color: #db4437;
-`;
-
-const FormInput = React.forwardRef(
-  ({ onChange, isValid, errorMessage, fieldFor, type, title, autoComplete, autofocus }, ref) => (
-    <>
-      <section>
-        <Label fieldFor={fieldFor}>{title}</Label>
-        <StyledInput
-          onChange={onChange}
-          ref={ref}
-          id={fieldFor}
-          type={type}
-          autoFocus={autofocus}
-          autoComplete={autoComplete}
-          isValid={isValid}
-        />
-      </section>
-      <section>
-        <ErrorMessage>
-          <span>{errorMessage}</span>
-        </ErrorMessage>
-      </section>
-    </>
-  )
-);
+const FormInput = React.forwardRef(({ title, id, onChange, ...restProps }, ref) => {
+  return (
+    <section>
+      <Label fieldFor={id}>{title}</Label>
+      <StyledInput
+        ref={ref}
+        onChange={(event) => onChange(event.target.value)}
+        id={id}
+        {...restProps}
+      />
+    </section>
+  );
+});
 
 FormInput.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  fieldFor: PropTypes.string.isRequired,
-  type: PropTypes.string,
+  id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  isValid: PropTypes.bool.isRequired,
-  autoComplete: PropTypes.string,
-  autofocus: PropTypes.bool,
-  errorMessage: PropTypes.string,
-};
-FormInput.defaultProps = {
-  type: 'text',
-  autofocus: false,
-  autoComplete: undefined,
-  errorMessage: undefined,
+  onChange: PropTypes.func.isRequired,
 };
 
 export { FormInput };

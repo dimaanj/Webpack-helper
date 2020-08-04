@@ -14,7 +14,7 @@
   "plugins": ["react", "prettier"],
   "rules": {
     "prettier/prettier": ["error", { "parser": "flow", "endOfLine": "auto" }],
-    "linebreak-style": ["error", "windows"],
+    "linebreak-style": [0, "error", "windows"],
     "import/prefer-default-export": "off",
     "no-shadow": "off",
     "react/forbid-prop-types": "off",

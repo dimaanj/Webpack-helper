@@ -10,7 +10,6 @@ const TodoList = ({
   isLoading,
   completedTodos,
   incompletedTodos,
-
   onRemovePressed,
   onTodoCompleted,
   startLoadingTodos,

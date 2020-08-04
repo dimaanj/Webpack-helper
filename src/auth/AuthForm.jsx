@@ -1,7 +1,10 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { EmailForm } from './EmailForm';
 import { PasswordForm } from './PasswordForm';
+import { addNotification } from '../shared/actions';
 
 const SnapContainer = styled.div`
   scroll-snap-type: x mandatory;
@@ -26,12 +29,16 @@ const Header = styled.h2`
   border-bottom: solid 2px #ccc;
 `;
 
-const AuthForm = () => {
+const AuthFormStateless = ({ notify }) => {
   const passwordStep = useRef(null);
-  const [email, setEmail] = useState('');
 
-  const onCompleteEmail = (email) => {
-    setEmail(email);
+  const onCompleteEmail = (email, isSignInAction) => {
+    notify(
+      `Your email is ${email} and you want tossssss sssssssssssss sssssss ssssssss ${
+        isSignInAction ? 'sign in' : 'sign up'
+      }`,
+      'ERROR'
+    );
     passwordStep.current.scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -54,5 +61,16 @@ const AuthForm = () => {
     </SnapContainer>
   );
 };
+
+AuthFormStateless.propTypes = {
+  notify: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  notify: (content, type) => {
+    return dispatch(addNotification(content, type));
+  },
+});
+const AuthForm = connect(null, mapDispatchToProps)(AuthFormStateless);
 
 export { AuthForm };

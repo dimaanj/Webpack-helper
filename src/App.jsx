@@ -1,8 +1,8 @@
 import React from 'react';
 import './reset.css';
 import './App.css';
-import { AuthForm } from './auth/AuthForm';
+import { Layout } from './components/Layout';
 
-const App = () => <AuthForm />;
+const App = () => <Layout />;
 
 export { App };

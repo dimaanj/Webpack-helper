@@ -5,13 +5,9 @@ import { CompleteButton } from '../shared/CompleteButton';
 import { useValidation } from '../shared/useValidation';
 
 const PasswordForm = ({ onComplete }) => {
-  // const passwordRef = useRef(null);
-  // const { isValid: isValidEmail, message: errorMessage } = useValidation({
-  //   ref: passwordRef,
-  //   validate: passwordRef,
-  // });
+  const onChangePassword = () => {};
 
-  const onCompletePswd = (event) => {
+  const onCompletePassword = (event) => {
     event.preventDefault();
 
     // onComplete({ password });
@@ -24,6 +20,9 @@ const PasswordForm = ({ onComplete }) => {
         fieldFor="form-password"
         type="password"
         name="current-password"
+        onChange={onChangePassword}
+        isValid={isValidPassword}
+        errorMessage={errorMessage}
       /> */}
       <CompleteButton title="Sign in" isDisabled={false} />
     </form>

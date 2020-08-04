@@ -9,10 +9,9 @@ const validateIsEmpty = (value) => {
 };
 
 const validateEmail = (value) => {
-  validateIsEmpty();
-  if (value.match(MAIL_FORMAT)) {
-    return { isValid: true };
-  }
+  // if (MAIL_FORMAT.test(value)) {
+  //   return { isValid: true };
+  // }
 
   return { isValid: false, message: 'Email is not correct!' };
 };

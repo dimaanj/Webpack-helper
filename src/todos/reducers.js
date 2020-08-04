@@ -57,7 +57,3 @@ export const todos = (state = initialState, action) => {
       return state;
   }
 };
-
-/*
-
-*/

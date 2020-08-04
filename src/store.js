@@ -5,9 +5,11 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { todos } from './todos/reducers';
+import { messenger } from './shared/reducers';
 
 const reducers = {
   todos,
+  messenger,
 };
 
 // this obj tells redux-persist how to save

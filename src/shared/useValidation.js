@@ -1,30 +1,77 @@
-import { useState, useEffect } from 'react';
-import { debounce } from 'lodash';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { pickBy, forEach, get, map } from 'lodash';
 
-const DEBOUNCE_DELAY = 500;
-
-const useValidation = ({ ref, validateFunc }) => {
-  const [isValid, setIsValid] = useState(true);
-  const [message, setMessage] = useState('');
+const useValidation = () => {
+  const [fields, setFields] = useState({});
 
   useEffect(() => {
-    const validate = () => {
-      const { value } = ref.current;
-      const { isValid, message } = validateFunc(value);
-      setIsValid(isValid);
-      setMessage(message);
-    };
-
-    validate();
-
-    ref.current.addEventListener('input', debounce(validate, DEBOUNCE_DELAY));
     return () => {
-      ref.current.removeEventListener('input', debounce(validate, DEBOUNCE_DELAY));
+      forEach(fields, ({ id, listener }) => {
+        const formElement = document.getElementById(id);
+        formElement.removeEventListener('input', listener, false);
+      });
     };
   }, []);
 
-  return { isValid, message };
+  const errors = useMemo(() => {
+    const invalidFields = pickBy(fields, ({ isValid }) => !isValid);
+    return map(invalidFields, 'message');
+  }, [fields, setFields]);
+
+  const register = useCallback((node, validateFunc) => {
+    if (node !== null) {
+      console.log(3);
+      // const handleEvent = (event) => onInput(event, validateFunc);
+      node.addEventListener(
+        'input',
+        (event) => {
+          const { value, id, name } = event.target;
+          const start = performance.now();
+          const { isValid, message } = validateFunc(value);
+          console.log('performance', performance.now() - start);
+          // console.log(4);
+          const obj = {
+            ...fields,
+            [`${name}`]: {
+              ...fields[`${name}`],
+              id,
+              name,
+              value,
+              message,
+              isValid,
+              validate: validateFunc,
+            },
+          };
+
+          setFields(obj);
+        },
+        false
+      );
+    }
+  }, []);
+
+  const handleSubmit = (event, onSubmit) => {
+    event.preventDefault();
+
+    // const invalidFields = pickBy(fields, ({ validate, value }) => !validate(value).isValid);
+    // if (isEmpty(invalidFields)) {
+    //   onSubmit();
+    // } else {
+    //   console.log(invalidFields);
+    //   setFields({
+    //     ...fields,
+    //     ...invalidFields,
+    //   });
+    // }
+  };
+
+  const isValid = (fieldName) => {
+    const { isValid = true } = get(fields, fieldName, {});
+    return isValid;
+  };
+
+  return { register, handleSubmit, isValid, errors };
 };
 
 useValidation.propTypes = {

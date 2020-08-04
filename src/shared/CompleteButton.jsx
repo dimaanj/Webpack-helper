@@ -20,11 +20,7 @@ const StyledButton = styled.button`
 `;
 
 const CompleteButton = ({ title }) => {
-  return (
-    <StyledButton isDisabled={false} type="submit">
-      {title}
-    </StyledButton>
-  );
+  return <StyledButton type="submit">{title}</StyledButton>;
 };
 CompleteButton.propTypes = {
   title: PropTypes.string.isRequired,
