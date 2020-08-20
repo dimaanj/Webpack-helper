@@ -6,9 +6,8 @@ const StyledInput = styled.input`
   width: 100%;
   padding: 12px;
   margin-top: 8px;
-  margin-bottom: 24px;
   display: inline-block;
-  border: 2px solid #ccc;
+  border: 1px solid #a8adb7;
   border-radius: 6px;
   box-sizing: border-box;
   font-size: 18px;
@@ -17,11 +16,7 @@ const StyledInput = styled.input`
 
   :focus {
     outline: none;
-    border: solid 2px #4285f4;
-  }
-
-  :invalid {
-    color: #db4437;
+    border: solid 1px #4285f4;
   }
 `;
 
@@ -30,16 +25,11 @@ const Label = styled.section`
   font-weight: 400;
 `;
 
-const FormInput = React.forwardRef(({ title, id, onChange, ...restProps }, ref) => {
+const FormInput = React.forwardRef(({ title, id, ...restProps }, ref) => {
   return (
     <section>
       <Label fieldFor={id}>{title}</Label>
-      <StyledInput
-        ref={ref}
-        onChange={(event) => onChange(event.target.value)}
-        id={id}
-        {...restProps}
-      />
+      <StyledInput ref={ref} id={id} {...restProps} />
     </section>
   );
 });
@@ -47,7 +37,6 @@ const FormInput = React.forwardRef(({ title, id, onChange, ...restProps }, ref) 
 FormInput.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
 };
 
 export { FormInput };

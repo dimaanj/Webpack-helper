@@ -1,77 +1,84 @@
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { pickBy, forEach, get, map } from 'lodash';
+import { forEach, reduce, debounce } from 'lodash';
+
+const EVENT_NAME = 'input';
+const ON_INPUT_VALIDATION_DELAY = 500;
 
 const useValidation = () => {
   const [fields, setFields] = useState({});
+  const [errorMsg, setErrorMsg] = useState('');
 
-  useEffect(() => {
-    return () => {
+  const register = useCallback((node, validateFunc) => {
+    const onInput = debounce((event, validate) => {
+      const { value } = event.target;
+      const { isValid } = validate(value);
+
+      if (!isValid) {
+        event.target.classList.add('invalid');
+      } else {
+        event.target.classList.remove('invalid');
+        setErrorMsg('');
+      }
+    }, ON_INPUT_VALIDATION_DELAY);
+
+    if (node !== null) {
+      const listener = (e) => onInput(e, validateFunc);
+      node.addEventListener(EVENT_NAME, listener, false);
+
+      const { name, id } = node;
+      setFields({
+        ...fields,
+        [name]: {
+          id,
+          listener,
+          validate: validateFunc,
+        },
+      });
+    }
+
+    if (node === null) {
       forEach(fields, ({ id, listener }) => {
         const formElement = document.getElementById(id);
         formElement.removeEventListener('input', listener, false);
       });
-    };
-  }, []);
-
-  const errors = useMemo(() => {
-    const invalidFields = pickBy(fields, ({ isValid }) => !isValid);
-    return map(invalidFields, 'message');
-  }, [fields, setFields]);
-
-  const register = useCallback((node, validateFunc) => {
-    if (node !== null) {
-      console.log(3);
-      // const handleEvent = (event) => onInput(event, validateFunc);
-      node.addEventListener(
-        'input',
-        (event) => {
-          const { value, id, name } = event.target;
-          const start = performance.now();
-          const { isValid, message } = validateFunc(value);
-          console.log('performance', performance.now() - start);
-          // console.log(4);
-          const obj = {
-            ...fields,
-            [`${name}`]: {
-              ...fields[`${name}`],
-              id,
-              name,
-              value,
-              message,
-              isValid,
-              validate: validateFunc,
-            },
-          };
-
-          setFields(obj);
-        },
-        false
-      );
     }
   }, []);
 
-  const handleSubmit = (event, onSubmit) => {
+  const handleSubmit = (event, submitButton, onSubmit) => {
     event.preventDefault();
 
-    // const invalidFields = pickBy(fields, ({ validate, value }) => !validate(value).isValid);
-    // if (isEmpty(invalidFields)) {
-    //   onSubmit();
-    // } else {
-    //   console.log(invalidFields);
-    //   setFields({
-    //     ...fields,
-    //     ...invalidFields,
-    //   });
-    // }
+    const result = reduce(
+      fields,
+      (acc, { id, validate }) => {
+        const formElement = document.getElementById(id);
+        const { value, name } = formElement;
+        const { isValid, message } = validate(value);
+
+        if (!isValid) {
+          formElement.classList.add('invalid');
+          return {
+            error: `${acc.error} ${message}`,
+            values: { ...acc.values, [name]: value },
+          };
+        }
+
+        return {
+          values: { ...acc.values, [name]: value },
+        };
+      },
+      { error: '', values: {} }
+    );
+
+    if (result.error) {
+      setErrorMsg(result.error);
+    } else {
+      submitButton.current.classList.add('disabled');
+      onSubmit(result.values);
+    }
   };
 
-  const isValid = (fieldName) => {
-    const { isValid = true } = get(fields, fieldName, {});
-    return isValid;
-  };
-
-  return { register, handleSubmit, isValid, errors };
+  return { register, handleSubmit, errorMsg };
 };
 
 useValidation.propTypes = {

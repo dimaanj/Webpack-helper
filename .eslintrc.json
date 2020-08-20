@@ -35,6 +35,6 @@
         }
       }
     ],
-    "react/jsx-props-no-spreading": "off" // props spreading
+    "react/jsx-props-no-spreading": "off" // props spreading,
   }
 }

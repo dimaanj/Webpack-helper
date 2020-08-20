@@ -8,9 +8,9 @@ const StyledButton = styled.button`
   font-size: 22px;
   font-weight: 400;
   border-radius: 6px;
-  background-color: ${({ isDisabled }) => (isDisabled ? '#efefef' : '#4285f4')};
-  border: ${({ isDisabled }) => (isDisabled ? '2px solid #efefef' : '2px solid #4285f4')};
-  color: ${({ isDisabled }) => (isDisabled ? 'black' : 'white')};
+  background-color: #4285f4;
+  border: 2px solid #4285f4;
+  color: white;
   cursor: pointer;
   transition: all 0.3s ease;
 
@@ -19,9 +19,14 @@ const StyledButton = styled.button`
   }
 `;
 
-const CompleteButton = ({ title }) => {
-  return <StyledButton type="submit">{title}</StyledButton>;
-};
+const CompleteButton = React.forwardRef(({ title }, ref) => {
+  return (
+    <StyledButton ref={ref} type="submit">
+      {title}
+    </StyledButton>
+  );
+});
+
 CompleteButton.propTypes = {
   title: PropTypes.string.isRequired,
 };

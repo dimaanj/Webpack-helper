@@ -1,0 +1,25 @@
+.toggle {
+  display: flex;
+  justify-content: center;
+  width: 50%;
+  font-size: 22px;
+  padding: 8px;
+  border: none;
+  cursor: pointer;
+  background-color: #efefef;
+  transition: all 0.3s ease;
+}
+.toggle:focus {
+  outline: none;
+}
+.toggle.selected {
+  background-color: #4285f4;
+  color: white;
+}
+
+.toggle__left {
+  border-radius: 6px 0 0 6px;
+}
+.toggle__right {
+  border-radius: 0 6px 6px 0;
+}

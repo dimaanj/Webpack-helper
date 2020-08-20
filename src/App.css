@@ -10,3 +10,15 @@ body {
   font-family: 'Noto Sans JP', sans-serif;
   overflow-y: hidden;
 }
+
+/* For invalid form inputs */
+input.invalid {
+  background-color: #fdd;
+}
+
+/* For invalid buttons */
+button[type='submit'].disabled {
+  background-color: #efefef;
+  border: 2px solid #efefef;
+  color: black;
+}

@@ -1,11 +1,11 @@
 import React from 'react';
 import { AuthForm } from '../auth/AuthForm';
-import { Notification } from '../shared/Notification';
+import { NotificationList } from '../shared/NotificationList';
 
 const Layout = () => {
   return (
     <div>
-      <Notification />
+      <NotificationList />
       <AuthForm />
     </div>
   );

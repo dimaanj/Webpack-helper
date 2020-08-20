@@ -1,0 +1,8 @@
+.verify-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.verify-wrapper input {
+  font-family: 'Noto Sans JP', sans-serif;
+}

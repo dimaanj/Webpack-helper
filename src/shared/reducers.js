@@ -1,4 +1,5 @@
-import { ADD_NOTIFICATION } from './actions';
+import { filter } from 'lodash';
+import { ADD_NOTIFICATION, REMOVE_NOTIFICATION } from './actions';
 import { reducersFactory } from './reducer-factory';
 
 const initialState = { notifications: [] };
@@ -11,6 +12,16 @@ handlers[ADD_NOTIFICATION] = (state, action) => {
   return {
     ...state,
     notifications: [...state.notifications, { id, content, type }],
+  };
+};
+
+handlers[REMOVE_NOTIFICATION] = (state, action) => {
+  const { id } = action.payload;
+  const notifications = state.notifications.slice();
+  const filteredNotifications = filter(notifications, (item) => item.id !== id);
+  return {
+    ...state,
+    notifications: filteredNotifications,
   };
 };
 
