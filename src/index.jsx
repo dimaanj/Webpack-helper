@@ -5,6 +5,7 @@ import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import { configureStore } from './store';
 import { App } from './App';
+// import { WSContextProvider } from './shared/WSContext';
 
 const store = configureStore();
 const persistor = persistStore(store);

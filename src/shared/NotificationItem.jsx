@@ -13,7 +13,7 @@ const StyledNotificationItem = styled.div`
   align-items: center;
   padding: 1rem;
   margin-bottom: 12px;
-  background-color: ${({ type }) => (type === NOTIFICATION_TYPES.error ? '#db4437' : '#f99e1e')};
+  background-color: ${({ type }) => (type === NOTIFICATION_TYPES.error ? '#db4437' : '#0F9D58')};
   color: white;
   border-radius: 6px;
   opacity: 85%;

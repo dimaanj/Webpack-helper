@@ -1,5 +1,5 @@
 export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
-export const addNotification = (content, type) => ({
+export const addNotification = ({ content, type }) => ({
   type: ADD_NOTIFICATION,
   payload: { content, type },
 });
@@ -24,4 +24,15 @@ export const loginRequestSuccess = ({ email, password }) => ({
 export const LOGIN_REQUEST_FAILURE = 'LOGIN_REQUEST_FAILURE';
 export const loginRequestFailure = () => ({
   type: LOGIN_REQUEST_FAILURE,
+});
+
+export const SEND_CONFIRMATION_IN_PROCESS = 'SEND_CONFIRMATION_IN_PROCESS';
+export const sendConfirmationInProcess = () => ({
+  type: SEND_CONFIRMATION_IN_PROCESS,
+});
+
+export const SEND_CONFIRMATION_SUCCESS = 'SEND_CONFIRMATION_SUCCESS';
+export const sendConfirmationSuccess = (email) => ({
+  type: SEND_CONFIRMATION_SUCCESS,
+  payload: { email },
 });

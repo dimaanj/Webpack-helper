@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   addNotification,
   loginRequestFailure,
@@ -5,12 +6,16 @@ import {
   loginRequestSuccess,
 } from './actions';
 
-const API = '';
+const API = 'http://127.0.0.1/api';
 
 const login = async ({ email, password }) => (dispatch) => {
   try {
     dispatch(loginRequestInProcess());
-    // const response = await fetch(`${API}/login`);
+    axios({
+      method: 'post',
+      url: `${API}/auth`,
+      data: {},
+    });
 
     dispatch(loginRequestSuccess({ email, password }));
   } catch (e) {
