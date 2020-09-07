@@ -7,7 +7,7 @@ import { validatePassword } from '../validation/validation';
 import { ErrorMessage } from '../shared/ErrorMessage';
 import { Header } from '../shared/Header';
 
-const PasswordForm = ({ onComplete, title }) => {
+const PasswordForm = ({ onComplete, title, header }) => {
   const submitButton = useRef();
   const { register, handleSubmit, errorMsg } = useValidation();
   const passwordElement = useCallback((node) => register(node, validatePassword), []);
@@ -19,7 +19,7 @@ const PasswordForm = ({ onComplete, title }) => {
 
   return (
     <>
-      <Header>Please, provide the password</Header>
+      <Header>{header}</Header>
       <form onSubmit={onSubmit}>
         <FormInput
           ref={passwordElement}
@@ -38,6 +38,7 @@ const PasswordForm = ({ onComplete, title }) => {
 PasswordForm.propTypes = {
   onComplete: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
+  header: PropTypes.string.isRequired,
 };
 
 export { PasswordForm };

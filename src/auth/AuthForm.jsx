@@ -2,51 +2,74 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { PasswordForm } from './PasswordForm';
-import { ConfirmEmailForm } from './ConfirmEmailForm';
 import { EmailForm } from './EmailForm';
-import { login } from '../shared/thunks';
+import { signIn, sendConfirmationEmail } from '../shared/thunks';
 import { AnimatedContent } from '../shared/AnimatedContent';
-import { addNotification } from '../shared/actions';
+import { ConfirmEmail } from './ConfirmEmail';
 
-const AuthFormStateless = ({ onLogin, notify }) => {
-  const [content, setContent] = useState(undefined);
+const AuthFormStateless = ({ signIn, sendConfirmationEmail }) => {
+  const [authData, setAuthData] = useState({
+    email: '',
+    password: '',
+    isSignIn: true,
+    nextView: 'email',
+  });
 
   const onCompletePassword = (password) => {
-    // notify({ type: 'ERROR', content: 'Invalid credentials!' });
-  };
-
-  const onCompleteCode = (code) => {
-    // notify({ type: 'ERROR', content: 'Invalid confirmation code!' });
+    if (authData.isSignIn) {
+      signIn({ email: authData.email, password });
+      // change route
+    } else {
+      sendConfirmationEmail({ email: authData.email, password });
+      setAuthData({
+        ...authData,
+        password,
+        nextView: 'confirmEmail',
+      });
+    }
   };
 
   const onCompleteEmail = ({ email, isSignIn }) => {
-    setContent(
-      isSignIn ? (
-        <PasswordForm onComplete={onCompletePassword} title="Login" />
-      ) : (
-        <ConfirmEmailForm onComplete={onCompleteCode} />
-      )
-    );
+    setAuthData({
+      ...authData,
+      email,
+      isSignIn,
+      nextView: 'password',
+    });
   };
 
   console.log('render auth form');
 
-  return <AnimatedContent>{content || <EmailForm onComplete={onCompleteEmail} />}</AnimatedContent>;
+  return (
+    <AnimatedContent>
+      <div>
+        {authData.nextView === 'email' && <EmailForm onComplete={onCompleteEmail} />}
+        {authData.nextView === 'password' && (
+          <PasswordForm
+            onComplete={onCompletePassword}
+            header={authData.isSignIn ? 'Please, provide the password' : 'Create the password'}
+            title={authData.isSignIn ? 'Sign in' : 'Sign up'}
+          />
+        )}
+        {authData.nextView === 'confirmEmail' && <ConfirmEmail />}
+      </div>
+    </AnimatedContent>
+  );
 };
 
 AuthFormStateless.propTypes = {
-  onLogin: PropTypes.func.isRequired,
-  notify: PropTypes.func.isRequired,
+  signIn: PropTypes.func.isRequired,
+  sendConfirmationEmail: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onLogin: ({ email, password }) => {
-    return dispatch(login({ email, password }));
+  signIn: ({ email, password }) => {
+    return dispatch(signIn({ email, password }));
   },
-  notify: (data) => {
-    return dispatch(addNotification(data));
+  sendConfirmationEmail: ({ email, password }) => {
+    return dispatch(sendConfirmationEmail({ email, password }));
   },
 });
 const AuthForm = connect(null, mapDispatchToProps)(AuthFormStateless);
 
-export { AuthForm };
+export { AuthForm as default };

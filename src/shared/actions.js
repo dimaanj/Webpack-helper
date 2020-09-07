@@ -26,13 +26,17 @@ export const loginRequestFailure = () => ({
   type: LOGIN_REQUEST_FAILURE,
 });
 
-export const SEND_CONFIRMATION_IN_PROCESS = 'SEND_CONFIRMATION_IN_PROCESS';
-export const sendConfirmationInProcess = () => ({
-  type: SEND_CONFIRMATION_IN_PROCESS,
+export const CONFIRM_EMAIL_REQUEST_IN_PROCESS = 'CONFIRM_EMAIL_REQUEST_IN_PROCESS';
+export const confirmEmailRequestInProcess = () => ({
+  type: CONFIRM_EMAIL_REQUEST_IN_PROCESS,
 });
 
-export const SEND_CONFIRMATION_SUCCESS = 'SEND_CONFIRMATION_SUCCESS';
-export const sendConfirmationSuccess = (email) => ({
-  type: SEND_CONFIRMATION_SUCCESS,
-  payload: { email },
+export const CONFIRM_EMAIL_REQUEST_SUCCESS = 'CONFIRM_EMAIL_REQUEST_SUCCESS';
+export const confirmEmailRequestSuccess = () => ({
+  type: CONFIRM_EMAIL_REQUEST_SUCCESS,
+});
+
+export const CONFIRM_EMAIL_REQUEST_FAILURE = 'CONFIRM_EMAIL_REQUEST_FAILURE';
+export const confirmEmailRequestFailure = () => ({
+  type: CONFIRM_EMAIL_REQUEST_FAILURE,
 });

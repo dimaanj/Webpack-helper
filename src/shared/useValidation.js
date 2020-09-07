@@ -23,7 +23,10 @@ const useValidation = () => {
     }, ON_INPUT_VALIDATION_DELAY);
 
     if (node !== null) {
-      const listener = (e) => onInput(e, validateFunc);
+      const listener = (event) => {
+        event.target.classList.remove('invalid');
+        onInput(event, validateFunc);
+      };
       node.addEventListener(EVENT_NAME, listener, false);
 
       const { name, id } = node;

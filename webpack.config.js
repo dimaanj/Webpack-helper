@@ -28,6 +28,9 @@ module.exports = {
       template: './public/index.html', // html template we want to use
     }),
     new webpack.HotModuleReplacementPlugin(), // for hot module replacement option of devServer
+    new webpack.DefinePlugin({
+      'process.env.SERVICE_URL': JSON.stringify('http://localhost:8080/api'),
+    }),
   ],
   devServer: {
     contentBase: [
@@ -64,6 +67,10 @@ module.exports = {
       {
         test: /\.(png|jpg)$/,
         use: [{ loader: 'url-loader' }],
+      },
+      {
+        test: /\.svg$/,
+        use: ['@svgr/webpack'],
       },
     ],
   },
