@@ -3,16 +3,22 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { PasswordForm } from './PasswordForm';
 import { EmailForm } from './EmailForm';
-import { signIn, sendConfirmationEmail } from '../shared/thunks';
+import { sendConfirmEmail } from '../shared/thunks';
 import { AnimatedContent } from '../shared/AnimatedContent';
 import { ConfirmEmail } from './ConfirmEmail';
 
-const AuthFormStateless = ({ signIn, sendConfirmationEmail }) => {
+const VIEWS = {
+  EMAIL: 'email',
+  PASSWORD: 'password',
+  CONFIRM_EMAIL: 'confirmEmail',
+};
+
+const AuthFormStateless = ({ signIn, sendConfirmEmail }) => {
   const [authData, setAuthData] = useState({
     email: '',
     password: '',
     isSignIn: true,
-    nextView: 'email',
+    nextView: VIEWS.EMAIL,
   });
 
   const onCompletePassword = (password) => {
@@ -20,11 +26,11 @@ const AuthFormStateless = ({ signIn, sendConfirmationEmail }) => {
       signIn({ email: authData.email, password });
       // change route
     } else {
-      sendConfirmationEmail({ email: authData.email, password });
+      sendConfirmEmail({ email: authData.email, password });
       setAuthData({
         ...authData,
         password,
-        nextView: 'confirmEmail',
+        nextView: VIEWS.CONFIRM_EMAIL,
       });
     }
   };
@@ -34,7 +40,7 @@ const AuthFormStateless = ({ signIn, sendConfirmationEmail }) => {
       ...authData,
       email,
       isSignIn,
-      nextView: 'password',
+      nextView: VIEWS.PASSWORD,
     });
   };
 
@@ -43,15 +49,15 @@ const AuthFormStateless = ({ signIn, sendConfirmationEmail }) => {
   return (
     <AnimatedContent>
       <div>
-        {authData.nextView === 'email' && <EmailForm onComplete={onCompleteEmail} />}
-        {authData.nextView === 'password' && (
+        {authData.nextView === VIEWS.EMAIL && <EmailForm onComplete={onCompleteEmail} />}
+        {authData.nextView === VIEWS.PASSWORD && (
           <PasswordForm
             onComplete={onCompletePassword}
             header={authData.isSignIn ? 'Please, provide the password' : 'Create the password'}
             title={authData.isSignIn ? 'Sign in' : 'Sign up'}
           />
         )}
-        {authData.nextView === 'confirmEmail' && <ConfirmEmail />}
+        {authData.nextView === VIEWS.CONFIRM_EMAIL && <ConfirmEmail />}
       </div>
     </AnimatedContent>
   );
@@ -59,15 +65,15 @@ const AuthFormStateless = ({ signIn, sendConfirmationEmail }) => {
 
 AuthFormStateless.propTypes = {
   signIn: PropTypes.func.isRequired,
-  sendConfirmationEmail: PropTypes.func.isRequired,
+  sendConfirmEmail: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   signIn: ({ email, password }) => {
-    return dispatch(signIn({ email, password }));
+    // return dispatch(signIn({ email, password }));
   },
-  sendConfirmationEmail: ({ email, password }) => {
-    return dispatch(sendConfirmationEmail({ email, password }));
+  sendConfirmEmail: ({ email, password }) => {
+    return dispatch(sendConfirmEmail({ email, password }));
   },
 });
 const AuthForm = connect(null, mapDispatchToProps)(AuthFormStateless);

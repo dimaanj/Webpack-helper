@@ -47,6 +47,7 @@ module.exports = {
     },
     open: true, // open the browser after server had been started
     hot: true, // hot module replacement
+    historyApiFallback: true,
   },
   module: {
     rules: [

@@ -1,8 +1,14 @@
 import { filter } from 'lodash';
-import { ADD_NOTIFICATION, REMOVE_NOTIFICATION } from './actions';
+import { ADD_NOTIFICATION, REMOVE_NOTIFICATION, CONFIRM_EMAIL_REQUEST_IN_PROCESS } from './actions';
 import { reducersFactory } from './reducer-factory';
 
-const initialState = { notifications: [] };
+const initialState = {
+  notifications: [],
+  isLoading: false,
+  userData: {
+    email: '',
+  },
+};
 
 const handlers = {};
 
@@ -14,7 +20,6 @@ handlers[ADD_NOTIFICATION] = (state, action) => {
     notifications: [...state.notifications, { id, content, type }],
   };
 };
-
 handlers[REMOVE_NOTIFICATION] = (state, action) => {
   const { id } = action.payload;
   const notifications = state.notifications.slice();
@@ -22,6 +27,12 @@ handlers[REMOVE_NOTIFICATION] = (state, action) => {
   return {
     ...state,
     notifications: filteredNotifications,
+  };
+};
+handlers[CONFIRM_EMAIL_REQUEST_IN_PROCESS] = (state) => {
+  return {
+    ...state,
+    isLoading: true,
   };
 };
 

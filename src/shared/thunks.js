@@ -11,7 +11,7 @@ import {
 
 const API = process.env.SERVICE_URL;
 
-const sendConfirmationEmail = ({ email, password }) => (dispatch) => {
+const sendConfirmEmail = ({ email, password }) => (dispatch) => {
   axios
     .post(`${API}/auth/sendConfirmationEmail`, {
       email,
@@ -30,20 +30,12 @@ const sendConfirmationEmail = ({ email, password }) => (dispatch) => {
   dispatch(confirmEmailRequestInProcess());
 };
 
-const signIn = ({ email, password }) => (dispatch) => {
-  try {
-    dispatch(loginRequestInProcess());
-    // axios({
-    //   method: 'post',
-    //   url: `${API}/auth`,
-    //   data: {},
-    // });
-
-    dispatch(loginRequestSuccess({ email, password }));
-  } catch (e) {
-    dispatch(loginRequestFailure());
-    dispatch(addNotification({ content: `Login with email ${email} failed` }));
-  }
+const checkAuth = ({ token }) => {
+  // axios
+  //   .post(`${API}/auth/check`, {
+  //     token,
+  //   })
+  //   .then(() => dispatch());
 };
 
-export { sendConfirmationEmail, signIn };
+export { sendConfirmEmail, checkAuth };
