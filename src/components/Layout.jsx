@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
@@ -9,7 +9,29 @@ const AuthForm = lazy(() => import('../auth/AuthForm'));
 const Messenger = lazy(() => import('../messenger/Messenger'));
 const NotFound = lazy(() => import('../shared/NotFound'));
 
+const EmailConfirm = ({
+  checkAuth,
+  match: {
+    params: { token },
+  },
+}) => {
+  // const isAuthenticated = false;
+  // if (isAuthenticated) {
+  //   return <Messenger />;
+  // }
+  // return <Redirect to="/" />;
+
+  console.log('render email confirm');
+
+  return <Messenger />;
+};
+EmailConfirm.propTypes = {
+  checkAuth: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired,
+};
+
 const LayoutStateless = ({ checkAuth }) => {
+  console.log('render router layout');
   return (
     <>
       <NotificationList />
@@ -24,18 +46,8 @@ const LayoutStateless = ({ checkAuth }) => {
               }}
             />
             <Route
-              path="/:token"
-              render={(props) => {
-                // const { token } = props;
-
-                // const isAuthenticated = false;
-                // if (isAuthenticated) {
-                //   return <Messenger />;
-                // }
-                // return <Redirect to="/" />;
-
-                return <Messenger />;
-              }}
+              path="/confirm/:token"
+              render={(props) => <EmailConfirm {...props} checkAuth={checkAuth} />}
             />
             <Route>
               <NotFound />

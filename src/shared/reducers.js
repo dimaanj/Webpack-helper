@@ -1,5 +1,11 @@
 import { filter } from 'lodash';
-import { ADD_NOTIFICATION, REMOVE_NOTIFICATION, CONFIRM_EMAIL_REQUEST_IN_PROCESS } from './actions';
+import {
+  ADD_NOTIFICATION,
+  REMOVE_NOTIFICATION,
+  CONFIRM_EMAIL_REQUEST_IN_PROCESS,
+  CONFIRM_EMAIL_REQUEST_FAILURE,
+  CONFIRM_EMAIL_REQUEST_SUCCESS,
+} from './actions';
 import { reducersFactory } from './reducer-factory';
 
 const initialState = {
@@ -29,10 +35,23 @@ handlers[REMOVE_NOTIFICATION] = (state, action) => {
     notifications: filteredNotifications,
   };
 };
+
 handlers[CONFIRM_EMAIL_REQUEST_IN_PROCESS] = (state) => {
   return {
     ...state,
     isLoading: true,
+  };
+};
+handlers[CONFIRM_EMAIL_REQUEST_FAILURE] = (state) => {
+  return {
+    ...state,
+    isLoading: false,
+  };
+};
+handlers[CONFIRM_EMAIL_REQUEST_SUCCESS] = (state) => {
+  return {
+    ...state,
+    isLoading: false,
   };
 };
 

@@ -18,8 +18,8 @@ const useValidation = () => {
         event.target.classList.add('invalid');
       } else {
         event.target.classList.remove('invalid');
-        setErrorMsg('');
       }
+      setErrorMsg('');
     }, ON_INPUT_VALIDATION_DELAY);
 
     if (node !== null) {

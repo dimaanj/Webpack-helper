@@ -1,9 +1,6 @@
 import axios from 'axios';
 import {
   addNotification,
-  loginRequestFailure,
-  loginRequestInProcess,
-  loginRequestSuccess,
   confirmEmailRequestInProcess,
   confirmEmailRequestSuccess,
   confirmEmailRequestFailure,
@@ -13,7 +10,7 @@ const API = process.env.SERVICE_URL;
 
 const sendConfirmEmail = ({ email, password }) => (dispatch) => {
   axios
-    .post(`${API}/auth/sendConfirmationEmail`, {
+    .post(`${API}/auth/register`, {
       email,
       password,
     })

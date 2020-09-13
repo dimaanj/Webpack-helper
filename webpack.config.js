@@ -15,6 +15,9 @@ module.exports = {
     // [checksum] or [hash] - to cache different bundles
     // from update when developing (doing changes in the files)
     path: path.resolve(__dirname, 'dist'),
+    // where you uploaded your bundled files. (Relative to server root)
+    // needs for react-router-dom
+    publicPath: '/',
   },
   optimization: {
     splitChunks: {
@@ -47,7 +50,7 @@ module.exports = {
     },
     open: true, // open the browser after server had been started
     hot: true, // hot module replacement
-    historyApiFallback: true,
+    historyApiFallback: true, // needs for react-router-dom
   },
   module: {
     rules: [

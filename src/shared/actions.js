@@ -11,19 +11,19 @@ export const removeNotification = (id) => ({
 });
 
 // login request
-export const LOGIN_REQUEST_IN_PROCESS = 'LOGIN_REQUEST_IN_PROCESS';
-export const loginRequestInProcess = () => ({
-  type: LOGIN_REQUEST_IN_PROCESS,
-});
-export const LOGIN_REQUEST_SUCCESS = 'LOGIN_REQUEST_SUCCESS';
-export const loginRequestSuccess = ({ email, password }) => ({
-  type: LOGIN_REQUEST_SUCCESS,
-  payload: { email, password },
-});
-export const LOGIN_REQUEST_FAILURE = 'LOGIN_REQUEST_FAILURE';
-export const loginRequestFailure = () => ({
-  type: LOGIN_REQUEST_FAILURE,
-});
+// export const LOGIN_REQUEST_IN_PROCESS = 'LOGIN_REQUEST_IN_PROCESS';
+// export const loginRequestInProcess = () => ({
+//   type: LOGIN_REQUEST_IN_PROCESS,
+// });
+// export const LOGIN_REQUEST_SUCCESS = 'LOGIN_REQUEST_SUCCESS';
+// export const loginRequestSuccess = ({ email, password }) => ({
+//   type: LOGIN_REQUEST_SUCCESS,
+//   payload: { email, password },
+// });
+// export const LOGIN_REQUEST_FAILURE = 'LOGIN_REQUEST_FAILURE';
+// export const loginRequestFailure = () => ({
+//   type: LOGIN_REQUEST_FAILURE,
+// });
 
 // send confirmation email
 export const CONFIRM_EMAIL_REQUEST_IN_PROCESS = 'CONFIRM_EMAIL_REQUEST_IN_PROCESS';
