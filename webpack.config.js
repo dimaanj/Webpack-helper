@@ -1,6 +1,5 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
@@ -24,7 +23,7 @@ module.exports = {
       // To split up (разделить) js code to different bundles.
       chunks: 'all', // Now bundle with our code will be cleaned up
     }, // from vendors imports (2mb ~> 100kb)
-    minimizer: [new UglifyjsWebpackPlugin()], // to minimize file size
+    minimizer: [], // to minimize file size
   },
   plugins: [
     new HtmlWebpackPlugin({
